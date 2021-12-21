@@ -2,21 +2,11 @@
   "name": "css",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": "https://github.com/Blackraven93/CSS.git",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.5",
-    "@babel/node": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-cli": "^2.3.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "nodemon": "^2.0.15",
     "sass": "^1.45.1"
-  },
-  "scripts": {
-    "start": "nodemon --exec babel-node ./src/index.js"
   }
 }
