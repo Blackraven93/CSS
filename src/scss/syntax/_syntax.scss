@@ -1,0 +1,850 @@
+.btn {
+    position: absolute;
+    &.active {
+        color: red;
+    }
+}
+
+.list {
+    li {
+        &:last-child {
+        margin-right: 0;
+        }
+    }
+}
+
+/* Compile
+
+.btn {
+  position: absolute;
+}
+.btn.active {
+  color: red;
+}
+.list li:last-child {
+  margin-right: 0;
+}
+
+*/
+
+.fs {
+    &-small { font-size: 12px; }
+    &-medium { font-size: 14px; }
+    &-large { font-size: 16px; }
+}
+
+/* Compile
+
+.fs-small {
+  font-size: 12px;
+}
+.fs-medium {
+  font-size: 14px;
+}
+.fs-large {
+  font-size: 16px;
+}
+
+*/
+
+.list {
+    $w: 100px;
+    $h: 50px;
+    li {
+        width: $w;
+        height: $h;
+    }
+    @at-root .box {
+        width: $w;
+        height: $h;
+    }
+}
+
+/* Compile
+
+.list li {
+  width: 100px;
+  height: 50px;
+}
+.box {
+  width: 100px;
+  height: 50px;
+}
+
+*/
+
+.box {
+    font: {
+        weight: bold;
+        size: 10px;
+        family: sans-serif;
+    };
+    margin: {
+        top: 10px;
+        left: 20px;
+    };
+    padding: {
+        bottom: 40px;
+        right: 30px;
+    };
+}
+
+/* Compile
+
+.box {
+  font-weight: bold;
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding-bottom: 40px;
+  padding-right: 30px;
+}
+
+
+*/
+
+$color-primary: #e96900;
+$url-images: "/assets/images/";
+$w: 200px;
+
+.box {
+  width: $w;
+  margin-left: $w;
+  background: $color-primary url($url-images + "bg.jpg");
+}
+
+/* Compile
+
+.box {
+  width: 200px;
+  margin-left: 200px;
+  background: #e96900 url("/assets/images/bg.jpg");
+}
+
+*/
+
+.box1 {
+    $color: #111;
+    background: $color;
+}
+  // Error 변수는 Scoop의 영향이 존재
+.box2 {
+    background: $color;
+}
+
+
+$red: #FF0000;
+$blue: #0000FF;
+
+$color-primary: $blue;
+$color-danger: $red;
+
+.box {
+color: $color-primary;
+background: $color-danger;
+}
+
+.box1 {
+    $color: #111 !global; // 전역 설정
+    background: $color;
+}
+.box2 {
+    background: $color;
+}
+
+
+
+
+$color-primary: red;
+
+.box {
+    $color-primary: blue !default;
+    background: $color-primary;
+}
+
+
+/* Compile
+
+.box {
+  background: red; !default 키워드는 color-primary 변수가 있다면 덮어 사용하지 않고
+                변수를 따른다는 의미
+}
+
+*/
+
+$family: unquote("Droid+Sans"); // Sass의 내장 함수 unquote()는 문자에서 따옴표를 제거합니다.
+@import url("http://fonts.googleapis.com/css?family=#{$family}");
+
+/* Compile
+
+@import url("http://fonts.googleapis.com/css?family=Droid+Sans");
+
+*/
+
+@import "hello.css";
+@import "http://hello.com/hello";
+@import url(hello);
+@import "hello" screen;
+
+/*
+
+위 경우 css @import 규칙대로 컴파일 된다.
+
+*/
+
+@import "header", "footer";
+
+
+// 나눗셈 사용시
+div {
+  $x: 100px;
+  width: $x / 2;  // 변수에 저장된 값을 나누기
+  height: (100px / 2);  // 괄호로 묶어서 나누기
+  font-size: 10px + 12px / 3;  // 더하기 연산과 같이 사용
+}
+
+
+div::after {
+  content: "Hello " + World;
+  flex-flow: row + "-reverse" + " " + wrap
+}
+
+/* Compile
+
+div::after {
+  content: "Hello World";
+  flex-flow: row-reverse wrap;
+}
+
+*/
+
+// 색상 연산
+div {
+  color: #123456 + #345678;
+  // R: 12 + 34 = 46
+  // G: 34 + 56 = 8a
+  // B: 56 + 78 = ce
+  background: rgba(50, 100, 150, .5) + rgba(10, 20, 30, .5);
+  // R: 50 + 10 = 60
+  // G: 100 + 20 = 120
+  // B: 150 + 30 = 180
+  // A: Alpha channels must be equal
+}
+
+
+/* Compile
+
+div {
+  color: #468ace;
+  background: rgba(60, 120, 180, 0.5);
+}
+
+*/
+
+$color: rgba(10, 20, 30, .5);
+// 색상 관련 함수 존재
+div {
+  color: opacify($color, .3);  // 30% 더 불투명하게 / 0.5 + 0.3
+  background-color: transparentize($color, .2);  // 20% 더 투명하게 / 0.5 - 0.2
+}
+
+
+/* Compile
+
+div {
+  color: rgba(10, 20, 30, 0.8);
+  background-color: rgba(10, 20, 30, 0.3);
+}
+
+*/
+
+$width: 90px;
+div {
+  @if not ($width > 100px) {
+    height: 300px;
+  }
+}
+
+/* Compile
+
+div {
+  height: 300px;
+}
+
+*/
+
+
+
+@mixin large-text {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: orange;
+}
+
+
+h1 {
+  @include large-text;
+}
+div {
+  @include large-text;
+}
+
+/* Compile
+
+h1 {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: orange;
+}
+h1::after {
+  content: "!!";
+}
+h1 span.icon {
+  background: url("/images/icon.png");
+}
+
+div {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: orange;
+}
+div::after {
+  content: "!!";
+}
+div span.icon {
+  background: url("/images/icon.png");
+}
+
+
+*/
+
+@mixin dash-line($width, $color) {
+  border: $width dashed $color;
+}
+
+.box1 { @include dash-line(1px, red); }
+.box2 { @include dash-line(4px, blue); }
+
+
+@mixin dash-line($width: 1px, $color: black) {
+  border: $width dashed $color;
+}
+
+.box1 { @include dash-line; }
+.box2 { @include dash-line(4px); }
+
+/* Compile
+
+.box1 {
+  border: 1px dashed black;
+}
+.box2 {
+  border: 4px dashed black;
+}
+
+*/
+
+@mixin position(
+  $p: absolute,
+  $t: null,
+  $b: null,
+  $l: null,
+  $r: null
+) {
+  position: $p;
+  top: $t;
+  bottom: $b;
+  left: $l;
+  right: $r;
+}
+
+.absolute {
+  // 키워드 인수로 설정할 값만 전달
+  @include position($b: 10px, $r: 20px);
+}
+.fixed {
+  // 인수가 많아짐에 따라 가독성을 확보하기 위해 줄바꿈
+  @include position(
+    fixed,
+    $t: 30px,
+    $r: 40px
+  );
+}
+
+/* Compile
+
+.absolute {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
+.fixed {
+  position: fixed;
+  top: 30px;
+  right: 40px;
+}
+
+*/
+
+// 인수를 순서대로 하나씩 전달 받다가, 3번째 매개변수($bg-values)는 인수의 개수에 상관없이 받음
+@mixin bg($width, $height, $bg-values...) {
+  width: $width;
+  height: $height;
+  background: $bg-values;
+}
+
+div {
+  // 위의 Mixin(bg) 설정에 맞게 인수를 순서대로 전달하다가 3번째 이후부터는 개수에 상관없이 전달
+  @include bg(
+    100px,
+    200px,
+    url("/images/a.png") no-repeat 10px 20px,
+    url("/images/b.png") no-repeat,
+    url("/images/c.png")
+  );
+}
+
+/* Compile
+div {
+  width: 100px;
+  height: 200px;
+  background: url("/images/a.png") no-repeat 10px 20px,
+              url("/images/b.png") no-repeat,
+              url("/images/c.png");
+}
+
+*/
+
+
+@mixin font(
+  $style: normal,
+  $weight: normal,
+  $size: 16px,
+  $family: sans-serif
+) {
+  font: {
+    style: $style;
+    weight: $weight;
+    size: $size;
+    family: $family;
+  }
+}
+div {
+  // 매개변수 순서와 개수에 맞게 전달
+  $font-values: italic, bold, 16px, sans-serif;
+  @include font($font-values...);
+}
+span {
+  // 필요한 값만 키워드 인수로 변수에 담아 전달
+  $font-values: (style: italic, size: 22px);
+  @include font($font-values...);
+}
+a {
+  // 필요한 값만 키워드 인수로 전달
+  @include font((weight: 900, family: monospace)...);
+}
+
+/* Compile
+
+div {
+  font-style: italic;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: sans-serif;
+}
+span {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 22px;
+  font-family: sans-serif;
+}
+a {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 16px;
+  font-family: monospace;
+}
+
+*/
+
+@mixin icon($url) {
+  &::after {
+    content: $url;
+    @content; // 해당 스타일 블록을 전달 할 수 있음
+  }
+}
+.icon1 {
+  // icon Mixin의 기존 기능만 사용
+  @include icon("/images/icon.png");
+}
+.icon2 {
+  // icon Mixin에 스타일 블록을 추가하여 사용
+  @include icon("/images/icon.png") {
+    position: absolute; // 이런거
+  };
+}
+
+/* Compile
+
+.icon1::after {
+  content: "/images/icon.png";
+}
+.icon2::after {
+  content: "/images/icon.png";
+  position: absolute;
+}
+
+*/
+
+$color: red;
+
+@mixin colors($color: blue) { 
+  // Mixin의 범위
+  @content;
+  background-color: $color; // color가 지역변수로 지정
+  border-color: $color;
+}
+
+div {
+  @include colors() {
+    // 스타일 블록이 정의된 범위
+    color: $color; // content에 해당하는 선택자는 전역 변수로 지정
+  }
+}
+
+/* Compile
+
+div {
+  color: red;
+  background-color: blue;
+  border-color: blue;
+}
+
+
+*/
+
+.btn {
+  padding: 10px;
+  margin: 10px;
+  background: blue;
+}
+.btn-danger {
+  @extend .btn;
+  background: red;
+}
+
+/* Compile
+
+@extend 권장하지 않음 Mixin을 사용할 것
+
+.btn, .btn-danger {
+  padding: 10px;
+  margin: 10px;
+  background: blue;
+}
+.btn-danger {
+  background: red;
+}
+
+*/
+
+$max-width: 980px;
+
+@function columns($number: 1, $columns: 12) { // 함수 사용시 내장 함수의 이름과 충돌 (즉 예약어) 주의
+  @return $max-width * ($number / $columns)
+}
+
+.box_group {
+  width: $max-width;
+
+  .box1 {
+    width: columns();  // 1
+  }
+  .box2 {
+    width: columns(8);
+  }
+  .box3 {
+    width: columns(3);
+  }
+}
+
+/* Compile
+
+.box_group { 
+  width: 980px; // 총너비
+}
+.box_group .box1 {
+  width: 81.66667px; // 총 너비의 약 8.3%
+}
+.box_group .box2 {
+  width: 653.33333px; // 총 너비의 약 66.7%
+}
+.box_group .box3 {
+  width: 245px; // 총 너비의 25%
+}
+
+*/
+
+$width: 555px;
+div {
+  width: if($width > 300px, $width, null); // true : $width, false : null
+}
+
+
+/*
+
+div {
+  width: 555px;
+}
+
+*/
+
+$bg: true;
+div {
+  @if $bg {
+    background: url("/images/a.jpg");
+  }
+}
+
+$color: orange;
+div {
+  @if $color == strawberry {
+    color: #FE2E2E;
+  } @else if $color == orange {
+    color: #FE9A2E;
+  } @else if $color == banana {
+    color: #FFFF00;
+  } @else {
+    color: #2A1B0A;
+  }
+}
+
+@function limitSize($size) {
+  @if $size >= 0 and $size <= 200px {
+    @return 200px;
+  } @else {
+    @return 800px;
+  }
+}
+
+div {
+  width: limitSize(180px);
+  height: limitSize(340px);
+}
+
+/* Compile
+
+div {
+  width: 200px;
+  height: 800px;
+}
+
+*/
+
+@mixin pCenter($w, $h, $p: absolute) {
+  @if
+    $p == absolute
+    or $p == fixed
+    // or not $p == relative
+    // or not $p == static
+  {
+    width: if(unitless($w), #{$w}px, $w); // unitless : 숫자의 단위가 있는지??
+    height: if(unitless($h), #{$h}px, $h);
+    position: $p;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+.box1 {
+  @include pCenter(10px, 20px);
+}
+.box2 {
+  @include pCenter(50, 50, fixed);
+}
+.box3 {
+  @include pCenter(100, 200, relative);
+}
+
+/*
+
+.box1 {
+  width: 10px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.box2 {
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+*/
+
+// 1부터 3번 반복 (권장)
+@for $i from 1 through 3 {
+  .through:nth-child(#{$i}) {
+    width : 20px * $i
+  }
+}
+
+// 1부터 3 직전까지만 반복(2번 반복)
+@for $i from 1 to 3 {
+  .to:nth-child(#{$i}) {
+    width : 20px * $i
+  }
+}
+
+/* Compile
+
+.through:nth-child(1) { width: 20px; }
+.through:nth-child(2) { width: 40px; }
+.through:nth-child(3) { width: 60px; }
+
+.to:nth-child(1) { width: 20px; }
+.to:nth-child(2) { width: 40px; }
+
+*/
+
+// List Data
+$fruits: (apple, orange, banana, mango);
+
+.fruits {
+  @each $fruit in $fruits {
+    li.#{$fruit} {
+      background: url("/images/#{$fruit}.png");
+    }
+  }
+}
+
+/*
+
+.fruits li.apple {
+  background: url("/images/apple.png");
+}
+.fruits li.orange {
+  background: url("/images/orange.png");
+}
+.fruits li.banana {
+  background: url("/images/banana.png");
+}
+.fruits li.mango {
+  background: url("/images/mango.png");
+}
+
+*/
+
+$fruits: (apple, orange, banana, mango);
+
+.fruits {
+  @each $fruit in $fruits {
+    $i: index($fruits, $fruit);
+    li:nth-child(#{$i}) {
+      left: 50px * $i;
+    }
+  }
+}
+
+/*
+
+.fruits li:nth-child(1) {
+  left: 50px;
+}
+.fruits li:nth-child(2) {
+  left: 100px;
+}
+.fruits li:nth-child(3) {
+  left: 150px;
+}
+.fruits li:nth-child(4) {
+  left: 200px;
+}
+
+*/
+
+$apple: (apple, korea);
+$orange: (orange, china);
+$banana: (banana, japan);
+
+@each $fruit, $country in $apple, $orange, $banana {
+  .box-#{$fruit} {
+    background: url("/images/#{$country}.png");
+  }
+}
+
+/*
+
+.box-apple {
+  background: url("/images/korea.png");
+}
+.box-orange {
+  background: url("/images/china.png");
+}
+.box-banana {
+  background: url("/images/japan.png");
+}
+
+*/
+
+$fruits-data: (
+  apple: korea,
+  orange: china,
+  banana: japan
+);
+
+@each $fruit, $country in $fruits-data {
+  .box-#{$fruit} {
+    background: url("/images/#{$country}.png");
+  }
+}
+
+/*
+
+.box-apple {
+  background: url("/images/korea.png");
+}
+.box-orange {
+  background: url("/images/china.png");
+}
+.box-banana {
+  background: url("/images/japan.png");
+}
+
+*/
+
+$i: 6;
+
+@while $i > 0 {
+  .item-#{$i} {
+    width: 2px * $i;
+  }
+  $i: $i - 2;
+}
+
+/*
+
+.item-6 { width: 12px; }
+.item-4 { width: 8px; }
+.item-2 { width: 4px; }
+
+*/
+
+// https://sass-lang.com/documentation/modules/meta

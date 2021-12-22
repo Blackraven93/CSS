@@ -8,5 +8,8 @@
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
     "sass": "^1.45.1"
+  },
+  "scripts": {
+    "dev":"parcel ./src/index.html"
   }
 }
