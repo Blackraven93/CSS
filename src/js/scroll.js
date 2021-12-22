@@ -18,6 +18,12 @@ const elementOutofView = (el) => {
   );
 };
 
+const elementHide = (el) => {
+    const elementBottom = el.getBoundingClientRect().bottom;
+
+    return elementBottom
+}
+
 // 애니매이션이 나오게 (fade-in, fade-out)
 const displayScrollElement = (element) => {
   element.classList.add("scrolled");
@@ -35,7 +41,7 @@ const handleScrollAnimation = () => {
     } else if (elementOutofView(el)) {
       hideScrollElement(el) // 화면을 넘었다면 다시 사라지게 한다.
     } else {
-        hideScrollElement(el)
+        
     }
   })
 }
